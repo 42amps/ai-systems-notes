@@ -18,6 +18,8 @@ The goal is to keep a public trail of how I think about applied AI and product s
 
 ## Current Focus
 
+![RAG evaluation loop](docs/assets/rag-evaluation-loop.svg)
+
 - Durable state for long-horizon agent workflows.
 - Retrieval and document intelligence for layout-heavy files.
 - Backend correctness in money-movement simulations.

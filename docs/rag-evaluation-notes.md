@@ -2,6 +2,8 @@
 
 "It answers well" is not enough to evaluate a RAG system. A generated answer can sound fluent while being unsupported, incomplete, slow, expensive, or retrieved from the wrong document.
 
+![RAG evaluation loop](assets/rag-evaluation-loop.svg)
+
 ## Retrieval Quality vs Generation Quality
 
 Retrieval quality asks whether the system found the right evidence. Generation quality asks whether the model used that evidence correctly.
