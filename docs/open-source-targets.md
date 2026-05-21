@@ -36,6 +36,36 @@ Pick issues where I can reproduce the problem locally, explain the fix in one pa
 
 ### 2026-05-21
 
+Daily OSS Scout + Contributor one-off run after automation update.
+
+Candidate selected:
+
+| Repo | Issue/PR | Type | Status | Notes |
+| --- | --- | --- | --- | --- |
+| `Aristocles/klebb` | https://github.com/Aristocles/klebb/issues/254 -> https://github.com/Aristocles/klebb/pull/269 | Docs correctness | PR opened | Fixed README recipe count from 10 to 12 after verifying `docs/RECIPES.md` contains 12 numbered recipes. |
+
+Score:
+
+| Criterion | Score | Notes |
+| --- | --- | --- |
+| Relevance | 3.5 | LLM-first, file-driven dashboard with docs/manifest workflow; adjacent to product systems and AI tooling. |
+| Issue clarity | 5 | Issue identified exact file, line, and expected change. |
+| Change size | 5 | One focused README correction. |
+| Acceptance likelihood | 4 | Labeled `good first issue`, `documentation`, and `area:docs`; no duplicate PR found. |
+| Local verification | 5 | Verified README line, counted numbered recipes, and ran `git diff --check`. |
+
+Verification:
+
+```bash
+rg "docs/RECIPES.md.*copy-pasteable" -n README.md
+rg "^## Recipe [0-9]+" -n docs/RECIPES.md | Measure-Object | Select-Object -ExpandProperty Count
+git diff --check
+```
+
+`npm test` was not run because the change is docs-only.
+
+Previous manual validation run:
+
 Daily Codex automation logic was run manually once to validate the workflow.
 
 Searches performed:
