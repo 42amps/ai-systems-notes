@@ -87,3 +87,74 @@ Shortlist:
 Outcome:
 
 No external PR was opened in this run. The automation correctly avoided forcing a low-quality contribution when the first-pass candidates required repository-specific verification.
+
+### 2026-05-22
+
+Daily OSS Scout + Contributor (automation run #1).
+
+Candidate selected:
+
+| Repo | Issue/PR | Type | Status | Notes |
+| --- | --- | --- | --- | --- |
+| `docling-project/docling-mcp` | https://github.com/docling-project/docling-mcp/issues/58 | Docs/tool-spec clarity | Blocked | Issue requests clarifying `create_docling_document` / document-creation tooling so LLMs don’t try to inline an entire document into one tool call. |
+
+Score:
+
+| Criterion | Score | Notes |
+| --- | --- | --- |
+| Relevance | 5 | Direct overlap: MCP + agent workflows + document AI. |
+| Issue clarity | 4 | Clear desired outcome (reduce ambiguity / prevent misuse); requires reading existing tool schemas. |
+| Change size | 4 | Likely a small doc/tool-description update + maybe one example. |
+| Acceptance likelihood | 4 | Maintainer-aligned (improves correctness and user experience); narrow scope. |
+| Ability to verify locally | 2 | Local verification blocked by inability to clone/run checks in this environment. |
+
+Blockers encountered:
+
+- Outbound `git clone` to `github.com:443` failed from this environment.
+- `gh` CLI auth for account `42amps` is currently invalid, so we can’t fork/push via CLI.
+- Available GitHub connector tooling can read public files/issues, but does not expose an action to create a fork, which is required for external PRs.
+
+Next steps (to unblock PRs in future runs):
+
+1. Fix `gh` auth for `42amps` (refresh token) and/or enable outbound `github.com:443` for `git clone`.
+2. Add/enable a GitHub connector capability that can fork repositories (GitHub REST `POST /repos/{owner}/{repo}/forks`), or manually pre-create forks for 2–3 target repos (e.g. `docling-project/docling-mcp`, `run-llama/llama_index`, `langchain-ai/langgraph`) so branch+PR creation is possible with existing tools.
+
+### 2026-05-22
+
+Daily OSS Scout + Contributor manual execution after automation setup.
+
+Environment check:
+
+- `gh auth status` is valid for `42amps` with `repo` and `workflow` scopes.
+- Existing external PR remains open: https://github.com/Aristocles/klebb/pull/269.
+
+Searches performed:
+
+- `Aristocles/klebb` documentation issues.
+- `docling-project/*` good-first issues.
+- `run-llama/LlamaIndexTS` good-first/help-wanted issues.
+- `langchain-ai/langgraph` documentation issues.
+- `qdrant/qdrant` documentation issues.
+
+Shortlist:
+
+| Repo | Issue/PR | Type | Status | Notes |
+| --- | --- | --- | --- | --- |
+| `run-llama/LlamaIndexTS` | https://github.com/run-llama/LlamaIndexTS/issues/2016 | Docs/API usage | Candidate | Documents passing a custom `embedModel` or `llm` per request instead of relying on global `Settings`; highly relevant to RAG/product systems, but needs repo checkout and docs structure review before editing. |
+| `docling-project/docling` | https://github.com/docling-project/docling/issues/3128 | Document serialization | Candidate | Footnote serialization in markdown output; relevant to document AI, but likely requires local reproduction and tests before a PR. |
+| `docling-project/docling` | https://github.com/docling-project/docling/issues/3094 | API/docs example | Candidate | `image_dir` parameter for markdown export; promising if maintainers expect implementation, but not safe as docs-only without reading current serializer behavior. |
+| `langchain-ai/langgraph` | https://github.com/langchain-ai/langgraph/issues/6239 | Docs/runtime guidance | Watch | Relevant to checkpointing and Postgres limits, but issue likely needs reproduction and maintainer direction before changing docs. |
+
+Score for top candidate (`run-llama/LlamaIndexTS#2016`):
+
+| Criterion | Score | Notes |
+| --- | --- | --- |
+| Relevance | 5 | Direct overlap with RAG, LLM configuration, and retrieval workflows. |
+| Issue clarity | 4 | Clear documentation need, but exact docs location must be confirmed. |
+| Change size | 4 | Likely one docs section/example if the API supports this cleanly. |
+| Acceptance likelihood | 4 | Labeled `documentation`, `good first issue`, and `help wanted`. |
+| Ability to verify locally | 3 | Requires checkout and package/docs command discovery; feasible but not completed in this short validation run. |
+
+Outcome:
+
+No PR was opened in this validation run. The automation correctly stopped at scouting because a useful PR needs a repo checkout, docs-location verification, and local command discovery. Next run should start with `run-llama/LlamaIndexTS#2016`, read `CONTRIBUTING.md`, find the LLM/settings docs, and only open a PR if the example can be verified locally.
